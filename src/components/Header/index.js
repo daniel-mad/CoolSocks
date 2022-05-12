@@ -1,11 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './styles.scss';
 
 function Header() {
   return (
     <header className="header">
       <div className="wrap">
-        <h3 className="logo">COOL SOCKS</h3>
+        <Link to="/">
+          <h3 className="logo">COOL SOCKS</h3>
+        </Link>
+
+        <div className="callToActions">
+          <ul>
+            <li>
+              <Link to="/registration">Register</Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </header>
   );

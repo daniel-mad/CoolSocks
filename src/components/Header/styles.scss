@@ -6,11 +6,25 @@
 .wrap {
   height: 100%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin: 0 auto;
 
   .logo {
     margin-left: 10px;
     font-size: 2rem;
+  }
+
+  .callToActions {
+    ul {
+      list-style: none;
+    }
+    a {
+      font-size: 1.7rem;
+      line-height: 1;
+      text-decoration: none;
+      text-transform: uppercase;
+      margin-right: 2rem;
+    }
   }
 }
