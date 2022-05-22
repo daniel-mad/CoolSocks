@@ -16,6 +16,9 @@
   }
 
   .callToActions {
+    .nav-items {
+      display: flex;
+    }
     ul {
       list-style: none;
     }

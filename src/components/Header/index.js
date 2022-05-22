@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { auth } from '../../firebase/utils';
 import './styles.scss';
 
-function Header() {
+function Header(props) {
+  const { currentUser } = props;
   return (
     <header className="header">
       <div className="wrap">
@@ -11,11 +13,25 @@ function Header() {
         </Link>
 
         <div className="callToActions">
-          <ul>
-            <li>
-              <Link to="/registration">Register</Link>
-            </li>
-          </ul>
+          {currentUser && (
+            <ul className="nav-items">
+              <li>
+                <Link to="#" onClick={() => auth.signOut()}>
+                  Logout
+                </Link>
+              </li>
+            </ul>
+          )}
+          {!currentUser && (
+            <ul className="nav-items">
+              <li>
+                <Link to="/registration">Register</Link>
+              </li>
+              <li>
+                <Link to="/login">login</Link>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </header>

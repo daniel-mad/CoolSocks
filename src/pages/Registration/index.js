@@ -1,7 +1,8 @@
 import React from 'react';
+import Signup from '../../components/Signup';
 
 function Registration() {
-  return <div>Registration</div>;
+  return <Signup />;
 }
 
 export default Registration;
