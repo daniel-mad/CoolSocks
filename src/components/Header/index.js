@@ -1,3 +1,4 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/utils';
@@ -16,7 +17,7 @@ function Header(props) {
           {currentUser && (
             <ul className="nav-items">
               <li>
-                <Link to="#" onClick={() => auth.signOut()}>
+                <Link to="#" onClick={() => signOut(auth)}>
                   Logout
                 </Link>
               </li>

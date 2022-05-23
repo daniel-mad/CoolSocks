@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './default.scss';
 import { auth, handleUserProfile } from './firebase/utils';
+import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
@@ -52,9 +53,9 @@ function App() {
             currentUser ? (
               <Navigate replace to="/" />
             ) : (
-              <MainLayout currentUser={currentUser}>
+              <AuthLayout currentUser={currentUser}>
                 <Registration />
-              </MainLayout>
+              </AuthLayout>
             )
           }
         />
@@ -65,9 +66,9 @@ function App() {
             currentUser ? (
               <Navigate replace to="/" />
             ) : (
-              <MainLayout currentUser={currentUser}>
+              <AuthLayout currentUser={currentUser}>
                 <Login />
-              </MainLayout>
+              </AuthLayout>
             )
           }
         />

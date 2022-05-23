@@ -1,5 +1,3 @@
-import 'firebase/compat/firestore';
-import 'firebase/compat/auth';
 import { firebaseConfig } from './config';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
