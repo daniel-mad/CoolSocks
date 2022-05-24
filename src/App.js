@@ -1,7 +1,9 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './default.scss';
+import { userAdded, userRemoved } from './features/User/userSlice';
 import { auth, handleUserProfile } from './firebase/utils';
 import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
@@ -11,7 +13,9 @@ import Recovery from './pages/Recovery';
 import Registration from './pages/Registration';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => console.log(state));
+
   useEffect(() => {
     (async () => {
       const authListener = onAuthStateChanged(auth, (userAuth) => {
@@ -23,14 +27,16 @@ function App() {
             reloadUserInfo: { lastLoginAt },
           } = userAuth;
           handleUserProfile(userAuth);
-          setCurrentUser({
-            id: uid,
-            displayName,
-            email,
-            lastLoginAt,
-          });
+          dispatch(
+            userAdded({
+              id: uid,
+              displayName,
+              email,
+              lastLoginAt,
+            })
+          );
         } else {
-          setCurrentUser(null);
+          dispatch(userRemoved());
         }
       });
 
@@ -43,7 +49,7 @@ function App() {
         <Route
           path='/'
           element={
-            <MainLayout currentUser={currentUser}>
+            <MainLayout>
               <Homepage />
             </MainLayout>
           }
@@ -54,7 +60,7 @@ function App() {
             currentUser ? (
               <Navigate replace to='/' />
             ) : (
-              <AuthLayout currentUser={currentUser}>
+              <AuthLayout>
                 <Registration />
               </AuthLayout>
             )
@@ -67,7 +73,7 @@ function App() {
             currentUser ? (
               <Navigate replace to='/' />
             ) : (
-              <AuthLayout currentUser={currentUser}>
+              <AuthLayout>
                 <Login />
               </AuthLayout>
             )
@@ -76,7 +82,7 @@ function App() {
         <Route
           path='/recovery'
           element={
-            <AuthLayout currentUser={currentUser}>
+            <AuthLayout>
               <Recovery />
             </AuthLayout>
           }

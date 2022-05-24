@@ -1,11 +1,13 @@
 import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/utils';
 import './styles.scss';
 
 function Header(props) {
-  const { currentUser } = props;
+  // const { currentUser } = props;
+  const currentUser = useSelector((state) => state.user.currentUser);
   return (
     <header className='header'>
       <div className='h-wrap'>
