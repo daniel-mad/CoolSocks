@@ -7,29 +7,29 @@ import './styles.scss';
 function Header(props) {
   const { currentUser } = props;
   return (
-    <header className="header">
-      <div className="wrap">
-        <Link to="/">
-          <h3 className="logo">COOL SOCKS</h3>
+    <header className='header'>
+      <div className='h-wrap'>
+        <Link to='/'>
+          <h3 className='logo'>COOL SOCKS</h3>
         </Link>
 
-        <div className="callToActions">
+        <div className='callToActions'>
           {currentUser && (
-            <ul className="nav-items">
+            <ul className='nav-items'>
               <li>
-                <Link to="#" onClick={() => signOut(auth)}>
+                <Link to='#' onClick={() => signOut(auth)}>
                   Logout
                 </Link>
               </li>
             </ul>
           )}
           {!currentUser && (
-            <ul className="nav-items">
+            <ul className='nav-items'>
               <li>
-                <Link to="/registration">Register</Link>
+                <Link to='/registration'>Register</Link>
               </li>
               <li>
-                <Link to="/login">login</Link>
+                <Link to='/login'>login</Link>
               </li>
             </ul>
           )}

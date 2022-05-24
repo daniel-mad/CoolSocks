@@ -7,13 +7,14 @@ import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
+import Recovery from './pages/Recovery';
 import Registration from './pages/Registration';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   useEffect(() => {
     (async () => {
-      const authListener = onAuthStateChanged(auth, userAuth => {
+      const authListener = onAuthStateChanged(auth, (userAuth) => {
         if (userAuth) {
           const {
             uid,
@@ -37,10 +38,10 @@ function App() {
     })();
   }, []);
   return (
-    <div className="App">
+    <div className='App'>
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <MainLayout currentUser={currentUser}>
               <Homepage />
@@ -48,10 +49,10 @@ function App() {
           }
         />
         <Route
-          path="/registration"
+          path='/registration'
           element={
             currentUser ? (
-              <Navigate replace to="/" />
+              <Navigate replace to='/' />
             ) : (
               <AuthLayout currentUser={currentUser}>
                 <Registration />
@@ -61,15 +62,23 @@ function App() {
         />
 
         <Route
-          path="/login"
+          path='/login'
           element={
             currentUser ? (
-              <Navigate replace to="/" />
+              <Navigate replace to='/' />
             ) : (
               <AuthLayout currentUser={currentUser}>
                 <Login />
               </AuthLayout>
             )
+          }
+        />
+        <Route
+          path='/recovery'
+          element={
+            <AuthLayout currentUser={currentUser}>
+              <Recovery />
+            </AuthLayout>
           }
         />
       </Routes>

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import FormInput from '../Forms/FormInput';
 import Button from '../Forms/Button';
 import './styles.scss';
+import AuthWrapper from '../AuthWrapper';
 
 function Signup() {
   const [displayName, setdDisplayName] = useState('');
@@ -12,7 +13,7 @@ function Signup() {
   const [passwordConfirm, setdPasswordConfirm] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== passwordConfirm) {
       setErrors([`Password Dont't Match`]);
@@ -32,9 +33,8 @@ function Signup() {
   };
 
   return (
-    <div className="signup">
-      <div className="wrap">
-        <h2>Sign up</h2>
+    <AuthWrapper headline='registration'>
+      <div className='formWrap'>
         {errors.length > 0 && (
           <ul>
             {errors.map((err, index) => {
@@ -45,37 +45,37 @@ function Signup() {
 
         <form onSubmit={handleSubmit}>
           <FormInput
-            type="text"
-            name="displayname"
+            type='text'
+            name='displayname'
             value={displayName}
-            placeholder="Full Name"
-            onChange={e => setdDisplayName(e.target.value)}
+            placeholder='Full Name'
+            onChange={(e) => setdDisplayName(e.target.value)}
           />
           <FormInput
-            type="email"
-            name="email"
+            type='email'
+            name='email'
             value={email}
-            placeholder="Email"
-            onChange={e => setEmail(e.target.value)}
+            placeholder='Email'
+            onChange={(e) => setEmail(e.target.value)}
           />
           <FormInput
-            type="password"
-            name="password"
+            type='password'
+            name='password'
             value={password}
-            placeholder="Password"
-            onChange={e => setdPassword(e.target.value)}
+            placeholder='Password'
+            onChange={(e) => setdPassword(e.target.value)}
           />
           <FormInput
-            type="password"
-            name="confirmPassword"
+            type='password'
+            name='confirmPassword'
             value={passwordConfirm}
-            placeholder="Confirm password"
-            onChange={e => setdPasswordConfirm(e.target.value)}
+            placeholder='Confirm password'
+            onChange={(e) => setdPasswordConfirm(e.target.value)}
           />
-          <Button type="submit">Register</Button>
+          <Button type='submit'>Register</Button>
         </form>
       </div>
-    </div>
+    </AuthWrapper>
   );
 }
 
