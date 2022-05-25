@@ -5,13 +5,24 @@ import FormInput from '../Forms/FormInput';
 import Button from '../Forms/Button';
 import './styles.scss';
 import AuthWrapper from '../AuthWrapper';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
   const [displayName, setdDisplayName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setdPassword] = useState('');
-  const [passwordConfirm, setdPasswordConfirm] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [errors, setErrors] = useState([]);
+
+  const navigate = useNavigate();
+
+  const resetForm = () => {
+    setdDisplayName('');
+    setEmail('');
+    setPassword('');
+    setPasswordConfirm('');
+    setErrors([]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +38,8 @@ function Signup() {
       );
 
       await handleUserProfile(user, { displayName });
+      resetForm();
+      navigate('/');
     } catch (error) {
       setErrors([error.message]);
     }
@@ -63,14 +76,14 @@ function Signup() {
             name='password'
             value={password}
             placeholder='Password'
-            onChange={(e) => setdPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormInput
             type='password'
             name='confirmPassword'
             value={passwordConfirm}
             placeholder='Confirm password'
-            onChange={(e) => setdPasswordConfirm(e.target.value)}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
           />
           <Button type='submit'>Register</Button>
         </form>

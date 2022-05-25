@@ -1,11 +1,11 @@
 import React from 'react';
 import './styles.scss';
 
-function FormInput({ handleChange, label, ...otherProps }) {
+function FormInput({ label, ...otherProps }) {
   return (
-    <div className="formRow">
+    <div className='formRow'>
       {label && <label>{label}</label>}
-      <input className="formInput" onChange={handleChange} {...otherProps} />
+      <input className='formInput' {...otherProps} />
     </div>
   );
 }

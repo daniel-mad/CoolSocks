@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth, signInWithGoogle } from '../../firebase/utils';
 import AuthWrapper from '../AuthWrapper';
 import Error from '../Errors';
@@ -13,14 +13,19 @@ function SignIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
+
+  const resetForm = () => {
+    setEmail('');
+    setPassword('');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // console.log(auth.currentUser);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-
-      setError(null);
+      resetForm();
+      navigate('/');
     } catch (err) {
       setError(err.message);
     }

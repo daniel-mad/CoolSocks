@@ -23,6 +23,9 @@ function Header(props) {
                   Logout
                 </Link>
               </li>
+              <li>
+                <Link to='/dashboard'>My account</Link>
+              </li>
             </ul>
           )}
           {!currentUser && (
