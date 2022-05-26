@@ -1,40 +1,54 @@
 import './styles.scss';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthWrapper from '../AuthWrapper';
 import FormInput from '../Forms/FormInput';
 import Button from '../Forms/Button';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  resetPassword,
+  resetPasswordError,
+} from '../../features/User/userSlice';
+
+const mapState = ({ user }) => ({
+  resetPasswordSuccess: user.resetPasswordSuccess,
+  resetPasswordError: user.resetPasswordError,
+});
 
 function EmailPassword() {
+  const { resetPasswordSuccess, resetPasswordError } = useSelector(mapState);
+
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState([]);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const auth = getAuth();
-      const config = {
-        url: 'http://localhost:3000/login',
-      };
-      sendPasswordResetEmail(auth, email, config);
-
-      //   setError(null)
+  useEffect(() => {
+    if (resetPasswordSuccess) {
       navigate('/login');
-    } catch (err) {
-      setError('Email not found.');
     }
+  }, [resetPasswordSuccess]);
+
+  useEffect(() => {
+    if (Array.isArray(resetPasswordError) && resetPasswordError.length > 0) {
+      setError(resetPasswordError);
+    }
+  }, [resetPasswordError]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(resetPassword({ email }));
   };
 
   return (
     <AuthWrapper headline='email password'>
       <div className='formWrap'>
-        {error && (
+        {error.length > 0 && (
           <ul>
-            <li>{error}</li>
+            {error.map((err, index) => (
+              <li key={index}>{err}</li>
+            ))}
           </ul>
         )}
         <form onSubmit={handleSubmit}>

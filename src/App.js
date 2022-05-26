@@ -18,6 +18,7 @@ import Registration from './pages/Registration';
 import Dashboard from './pages/Dashboard';
 
 import WithAuth from './hoc/withAuth';
+import { getDoc } from 'firebase/firestore';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,24 +27,14 @@ function App() {
   useEffect(() => {
     const authListener = onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
-        const {
-          uid,
-          displayName,
-          email,
-          reloadUserInfo: { lastLoginAt },
-        } = userAuth;
-        handleUserProfile(userAuth);
-
+        const userRef = await handleUserProfile(userAuth);
+        const snapshot = await getDoc(userRef);
         dispatch(
           userAdded({
-            id: uid,
-            displayName,
-            email,
-            lastLoginAt,
+            id: snapshot.id,
+            ...snapshot.data(),
           })
         );
-      } else {
-        dispatch(userRemoved());
       }
     });
 

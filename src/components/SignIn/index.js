@@ -1,17 +1,25 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, signInWithGoogle } from '../../firebase/utils';
+import { selectSignIn, signInUser, signInWithGoogle } from '../../features/User/userSlice';
+
 import AuthWrapper from '../AuthWrapper';
-import Error from '../Errors';
 import Button from '../Forms/Button';
 import FormInput from '../Forms/FormInput';
 import './styles.scss';
 
 function SignIn() {
+  const signInSuccess = useSelector(selectSignIn);
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (signInSuccess) {
+      resetForm();
+      navigate('/');
+    }
+  }, [signInSuccess]);
 
   const navigate = useNavigate();
 
@@ -20,15 +28,13 @@ function SignIn() {
     setPassword('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignInWithGoogle = ()=> {
+    dispatch(signInWithGoogle())
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      resetForm();
-      navigate('/');
-    } catch (err) {
-      setError(err.message);
-    }
+    dispatch(signInUser({ email, password }));
   };
   return (
     <AuthWrapper headline='login'>
@@ -51,7 +57,7 @@ function SignIn() {
           <Button type='submit'>Login</Button>
           <div className='socialSignin'>
             <div className='row'>
-              <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+              <Button onClick={handleSignInWithGoogle}>Sign in with Google</Button>
             </div>
           </div>
           <div className='links'>

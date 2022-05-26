@@ -8,11 +8,11 @@ export const auth = getAuth(app);
 
 export const db = getFirestore(app);
 
-export const signInWithGoogle = () => {
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
-  signInWithPopup(auth, provider);
-};
+// export const signInWithGoogle = () => {
+//   const provider = new GoogleAuthProvider();
+//   provider.setCustomParameters({ prompt: 'select_account' });
+//   signInWithPopup(auth, provider);
+// };
 
 export const handleUserProfile = async (userAuth, additionalData) => {
   if (!userAuth) return;

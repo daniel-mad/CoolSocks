@@ -1,20 +1,42 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, handleUserProfile } from '../../firebase/utils';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormInput from '../Forms/FormInput';
 import Button from '../Forms/Button';
 import './styles.scss';
 import AuthWrapper from '../AuthWrapper';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpUser } from '../../features/User/userSlice';
+
+const mapState = ({ user }) => ({
+  signUpSuccess: user.signUpSuccess,
+  signUpError: user.signUpError,
+});
 
 function Signup() {
+  const { signUpSuccess, signUpError } = useSelector(mapState);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [displayName, setdDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (signUpSuccess) {
+      resetForm();
+      navigate('/');
+    }
+  }, [signUpSuccess]);
+
+  useEffect(() => {
+    if (Array.isArray(signUpError) && signUpError.length > 0) {
+      setErrors(signUpError);
+    }
+  }, [signUpError]);
 
   const resetForm = () => {
     setdDisplayName('');
@@ -24,25 +46,9 @@ function Signup() {
     setErrors([]);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (password !== passwordConfirm) {
-      setErrors([`Password Dont't Match`]);
-      return;
-    }
-    try {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      await handleUserProfile(user, { displayName });
-      resetForm();
-      navigate('/');
-    } catch (error) {
-      setErrors([error.message]);
-    }
+    dispatch(signUpUser({ displayName, email, password, passwordConfirm }));
   };
 
   return (
