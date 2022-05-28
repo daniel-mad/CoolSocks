@@ -7,17 +7,17 @@ import Button from '../Forms/Button';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  resetPassword,
-  resetPasswordError,
+  resetPasswordStart,
+  resetUserState,
 } from '../../features/User/userSlice';
 
 const mapState = ({ user }) => ({
   resetPasswordSuccess: user.resetPasswordSuccess,
-  resetPasswordError: user.resetPasswordError,
+  userErr: user.userErr,
 });
 
 function EmailPassword() {
-  const { resetPasswordSuccess, resetPasswordError } = useSelector(mapState);
+  const { resetPasswordSuccess, userErr } = useSelector(mapState);
 
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
@@ -26,19 +26,20 @@ function EmailPassword() {
 
   useEffect(() => {
     if (resetPasswordSuccess) {
+      dispatch(resetUserState());
       navigate('/login');
     }
   }, [resetPasswordSuccess]);
 
   useEffect(() => {
-    if (Array.isArray(resetPasswordError) && resetPasswordError.length > 0) {
-      setError(resetPasswordError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setError(userErr);
     }
-  }, [resetPasswordError]);
+  }, [userErr]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(resetPassword({ email }));
+    dispatch(resetPasswordStart({ email }));
   };
 
   return (

@@ -1,17 +1,15 @@
-import { signOut } from 'firebase/auth';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { signInSuccess, userRemoved } from '../../features/User/userSlice';
-import { auth } from '../../firebase/utils';
+import { signOutUserStart, userRemoved } from '../../features/User/userSlice';
+
 import './styles.scss';
 
 function Header(props) {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
   const logOut = () => {
-    signOut(auth);
-    dispatch(userRemoved());
+    dispatch(signOutUserStart());
   };
   return (
     <header className='header'>
@@ -24,12 +22,12 @@ function Header(props) {
           {currentUser && (
             <ul className='nav-items'>
               <li>
+                <Link to='/dashboard'>My account</Link>
+              </li>
+              <li>
                 <Link to='#' onClick={logOut}>
                   Logout
                 </Link>
-              </li>
-              <li>
-                <Link to='/dashboard'>My account</Link>
               </li>
             </ul>
           )}

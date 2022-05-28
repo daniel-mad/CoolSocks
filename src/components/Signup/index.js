@@ -1,5 +1,3 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, handleUserProfile } from '../../firebase/utils';
 import React, { useEffect, useState } from 'react';
 import FormInput from '../Forms/FormInput';
 import Button from '../Forms/Button';
@@ -7,15 +5,15 @@ import './styles.scss';
 import AuthWrapper from '../AuthWrapper';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUpUser } from '../../features/User/userSlice';
+import { signUpUserStart } from '../../features/User/userSlice';
 
 const mapState = ({ user }) => ({
-  signUpSuccess: user.signUpSuccess,
-  signUpError: user.signUpError,
+  currentUser: user.currentUser,
+  userErr: user.userErr,
 });
 
 function Signup() {
-  const { signUpSuccess, signUpError } = useSelector(mapState);
+  const { currentUser, userErr } = useSelector(mapState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,17 +24,17 @@ function Signup() {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    if (signUpSuccess) {
+    if (currentUser) {
       resetForm();
       navigate('/');
     }
-  }, [signUpSuccess]);
+  }, [currentUser]);
 
   useEffect(() => {
-    if (Array.isArray(signUpError) && signUpError.length > 0) {
-      setErrors(signUpError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
     }
-  }, [signUpError]);
+  }, [userErr]);
 
   const resetForm = () => {
     setdDisplayName('');
@@ -48,7 +46,9 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signUpUser({ displayName, email, password, passwordConfirm }));
+    dispatch(
+      signUpUserStart({ displayName, email, password, passwordConfirm })
+    );
   };
 
   return (

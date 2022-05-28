@@ -1,14 +1,8 @@
-import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 import './default.scss';
-import {
-  selectCurrentUser,
-  userAdded,
-  userRemoved,
-} from './features/User/userSlice';
-import { auth, handleUserProfile } from './firebase/utils';
+import { checkUserSession } from './features/User/userSlice';
 import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
 import Homepage from './pages/Homepage';
@@ -18,28 +12,14 @@ import Registration from './pages/Registration';
 import Dashboard from './pages/Dashboard';
 
 import WithAuth from './hoc/withAuth';
-import { getDoc } from 'firebase/firestore';
 
 function App() {
   const dispatch = useDispatch();
-  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    const authListener = onAuthStateChanged(auth, async (userAuth) => {
-      if (userAuth) {
-        const userRef = await handleUserProfile(userAuth);
-        const snapshot = await getDoc(userRef);
-        dispatch(
-          userAdded({
-            id: snapshot.id,
-            ...snapshot.data(),
-          })
-        );
-      }
-    });
-
-    return () => authListener();
+    dispatch(checkUserSession());
   }, []);
+
   return (
     <div className='App'>
       <Routes>

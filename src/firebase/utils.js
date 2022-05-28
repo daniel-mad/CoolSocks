@@ -1,5 +1,10 @@
 import { firebaseConfig } from './config';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+} from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -8,13 +13,7 @@ export const auth = getAuth(app);
 
 export const db = getFirestore(app);
 
-// export const signInWithGoogle = () => {
-//   const provider = new GoogleAuthProvider();
-//   provider.setCustomParameters({ prompt: 'select_account' });
-//   signInWithPopup(auth, provider);
-// };
-
-export const handleUserProfile = async (userAuth, additionalData) => {
+export const handleUserProfile = async ({ userAuth, additionalData }) => {
   if (!userAuth) return;
   const { uid } = userAuth;
 
@@ -37,4 +36,17 @@ export const handleUserProfile = async (userAuth, additionalData) => {
     console.log(err);
   }
   return userRef;
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
 };

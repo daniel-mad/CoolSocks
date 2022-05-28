@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { selectSignIn, signInUser, signInWithGoogle } from '../../features/User/userSlice';
+import {
+  emailSignInStart,
+  googleSignInStart,
+} from '../../features/User/userSlice';
 
 import AuthWrapper from '../AuthWrapper';
 import Button from '../Forms/Button';
 import FormInput from '../Forms/FormInput';
 import './styles.scss';
 
+const mapState = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 function SignIn() {
-  const signInSuccess = useSelector(selectSignIn);
+  const { currentUser } = useSelector(mapState);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (signInSuccess) {
+    if (currentUser) {
       resetForm();
       navigate('/');
     }
-  }, [signInSuccess]);
+  }, [currentUser]);
 
   const navigate = useNavigate();
 
@@ -28,13 +35,13 @@ function SignIn() {
     setPassword('');
   };
 
-  const handleSignInWithGoogle = ()=> {
-    dispatch(signInWithGoogle())
-  }
+  const handleSignInWithGoogle = () => {
+    dispatch(googleSignInStart());
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signInUser({ email, password }));
+    dispatch(emailSignInStart({ email, password }));
   };
   return (
     <AuthWrapper headline='login'>
@@ -57,7 +64,9 @@ function SignIn() {
           <Button type='submit'>Login</Button>
           <div className='socialSignin'>
             <div className='row'>
-              <Button onClick={handleSignInWithGoogle}>Sign in with Google</Button>
+              <Button onClick={handleSignInWithGoogle}>
+                Sign in with Google
+              </Button>
             </div>
           </div>
           <div className='links'>
