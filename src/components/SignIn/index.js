@@ -18,6 +18,8 @@ const mapState = ({ user }) => ({
 function SignIn() {
   const { currentUser } = useSelector(mapState);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,8 +29,6 @@ function SignIn() {
       navigate('/');
     }
   }, [currentUser]);
-
-  const navigate = useNavigate();
 
   const resetForm = () => {
     setEmail('');

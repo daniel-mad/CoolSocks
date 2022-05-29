@@ -1,17 +1,27 @@
+import './default.scss';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import './default.scss';
 import { checkUserSession } from './features/User/userSlice';
+
+// components
+import AdminToolbar from './components/AdminToolbar';
+
+// hoc
+import WithAuth from './hoc/withAuth';
+import WithAdminAuth from './hoc/withAdminAuth';
+
+// Layouts
 import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
+
+// Pages
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Recovery from './pages/Recovery';
 import Registration from './pages/Registration';
 import Dashboard from './pages/Dashboard';
-
-import WithAuth from './hoc/withAuth';
+import Admin from './pages/Admin';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +32,7 @@ function App() {
 
   return (
     <div className='App'>
+      <AdminToolbar />
       <Routes>
         <Route
           path='/'
@@ -64,6 +75,16 @@ function App() {
                 <Dashboard />
               </AuthLayout>
             </WithAuth>
+          }
+        />
+        <Route
+          path='/admin'
+          element={
+            <WithAdminAuth>
+              <AuthLayout>
+                <Admin />
+              </AuthLayout>
+            </WithAdminAuth>
           }
         />
       </Routes>

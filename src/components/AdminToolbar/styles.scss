@@ -1,0 +1,22 @@
+.adminToolbar {
+  width: 100%;
+  background-color: black;
+  display: flex;
+  justify-content: end;
+  margin: 0 auto;
+
+  .admin-link {
+    list-style: none;
+    color: white;
+    padding: 1rem;
+    font-size: 1.6rem;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.6);
+      color: black;
+
+      transition: all 0.2s ease-in-out;
+    }
+  }
+}

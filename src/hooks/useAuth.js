@@ -1,10 +1,13 @@
 const { useEffect } = require('react');
 const { useSelector } = require('react-redux');
 const { useNavigate } = require('react-router-dom');
-const { selectCurrentUser } = require('../features/User/userSlice');
+
+const mapState = ({ user }) => ({
+  currentUser: user.currentUser,
+});
 
 const useAuth = () => {
-  const currentUser = useSelector(selectCurrentUser);
+  const currentUser = useSelector(mapState);
   const navigate = useNavigate();
   useEffect(() => {
     if (!currentUser) {
