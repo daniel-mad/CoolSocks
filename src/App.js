@@ -14,6 +14,8 @@ import WithAdminAuth from './hoc/withAdminAuth';
 // Layouts
 import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
+import AdminLayout from './layouts/AdminLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 
 // Pages
 import Homepage from './pages/Homepage';
@@ -81,9 +83,9 @@ function App() {
           path='/admin'
           element={
             <WithAdminAuth>
-              <AuthLayout>
+              <AdminLayout>
                 <Admin />
-              </AuthLayout>
+              </AdminLayout>
             </WithAdminAuth>
           }
         />
