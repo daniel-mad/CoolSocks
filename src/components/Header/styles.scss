@@ -9,10 +9,23 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  a {
+    font-size: 1.7rem;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-right: 2rem;
+  }
 
   .logo {
+    display: flex;
+    align-items: center;
     margin-left: 10px;
     font-size: 2rem;
+  }
+
+  .h-nav ul {
+    display: flex;
   }
 
   .callToActions {
@@ -21,13 +34,6 @@
     }
     ul {
       list-style: none;
-    }
-    a {
-      font-size: 1.7rem;
-      line-height: 1;
-      text-decoration: none;
-      text-transform: uppercase;
-      margin-right: 2rem;
     }
   }
 }

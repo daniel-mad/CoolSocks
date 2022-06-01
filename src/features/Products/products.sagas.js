@@ -16,7 +16,7 @@ export function* addProduct({
   payload: { productCategory, productName, productThumbnail, productPrice },
 }) {
   try {
-    const timestamp = new Date();
+    const timestamp = Date.now();
     yield handleAddProduct({
       productCategory,
       productName,
@@ -49,7 +49,6 @@ export function* onFetchProductsStart() {
 }
 
 export function* deleteProduct({ payload: { documentID } }) {
-  console.log(documentID);
   try {
     yield handleDeleteProduct(documentID);
     yield put(fetchProductsStart());

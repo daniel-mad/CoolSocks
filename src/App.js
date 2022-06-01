@@ -24,6 +24,7 @@ import Recovery from './pages/Recovery';
 import Registration from './pages/Registration';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
+import Search from './pages/Search';
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,14 @@ function App() {
           element={
             <MainLayout>
               <Homepage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path='/search'
+          element={
+            <MainLayout>
+              <Search />
             </MainLayout>
           }
         />

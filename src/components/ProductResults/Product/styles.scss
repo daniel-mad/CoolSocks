@@ -1,0 +1,44 @@
+.product {
+  background-color: white;
+  padding: 0;
+  height: 44rem;
+  //   width: 30rem;s
+
+  .product-card {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .thumb {
+    height: 70%;
+    img {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .details {
+    padding: 0.5rem;
+    margin: 0;
+    height: 100%;
+    li {
+      display: block;
+
+      .product-name {
+        font-size: 2.2rem;
+        line-height: 1.2;
+      }
+      .product-price {
+        font-size: 1.8rem;
+        line-height: 1;
+      }
+      .addToCart {
+        margin-top: 2rem;
+      }
+    }
+  }
+}

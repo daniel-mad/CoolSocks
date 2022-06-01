@@ -14,9 +14,22 @@ function Header(props) {
   return (
     <header className='header'>
       <div className='h-wrap'>
-        <Link to='/'>
-          <h3 className='logo'>COOL SOCKS</h3>
-        </Link>
+        <div className='logo'>
+          <Link to='/'>
+            <h3>COOL SOCKS</h3>
+          </Link>
+        </div>
+
+        <nav className='h-nav'>
+          <ul>
+            <li>
+              <Link to='/'>Home</Link>
+            </li>
+            <li>
+              <Link to='/search'>Search</Link>
+            </li>
+          </ul>
+        </nav>
 
         <div className='callToActions'>
           {currentUser && (

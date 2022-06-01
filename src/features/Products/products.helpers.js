@@ -4,6 +4,8 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  orderBy,
+  query,
   setDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase/utils';
@@ -24,7 +26,8 @@ export const handleFetchProducts = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const productsCol = collection(db, 'products');
-      const snapshot = await getDocs(productsCol);
+      const q = query(productsCol, orderBy('createdDate'));
+      const snapshot = await getDocs(q);
       const products = snapshot.docs.map((doc) => {
         return {
           ...doc.data(),
