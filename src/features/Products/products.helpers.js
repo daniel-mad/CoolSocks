@@ -7,6 +7,7 @@ import {
   orderBy,
   query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import { db } from '../../firebase/utils';
 
@@ -22,11 +23,18 @@ export const handleAddProduct = (product) => {
   });
 };
 
-export const handleFetchProducts = () => {
+export const handleFetchProducts = ({ filters }) => {
   return new Promise(async (resolve, reject) => {
     try {
       const productsCol = collection(db, 'products');
-      const q = query(productsCol, orderBy('createdDate'));
+      let q = query(productsCol, orderBy('createdDate'));
+      if (filters)
+        q = query(
+          productsCol,
+          where('productCategory', '==', filters),
+          orderBy('createdDate')
+        );
+
       const snapshot = await getDocs(q);
       const products = snapshot.docs.map((doc) => {
         return {

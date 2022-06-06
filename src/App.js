@@ -54,6 +54,14 @@ function App() {
           }
         />
         <Route
+          path='/search/:filters'
+          element={
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          }
+        />
+        <Route
           path='/registration'
           element={
             <AuthLayout>
